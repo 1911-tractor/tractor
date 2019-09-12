@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {HashRouter,Route,Switch,Redirect} from 'react-router-dom';
 import App from './App';
 import Admin from './pages/Admin.js'
+import Food from './pages/food'
 class RootRouter extends Component{
     render(){
         return(
@@ -11,10 +12,13 @@ class RootRouter extends Component{
                         <Redirect exact from='/' to='admin'></Redirect>
                             <Route path='/admin' render={()=>{
                                 return(
-                                    <Admin></Admin>
+                                    <Admin>
+                                           <Route path = '/admin/food' component={Food}></Route>
+                                    </Admin>
+                                 
                                 )
                             }}>
-
+ 
                             </Route>
                         
                     </Switch>
