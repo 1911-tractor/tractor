@@ -1,16 +1,23 @@
 import React,{Component} from 'react'
 import {withRouter} from 'react-router-dom'
 class Admin extends Component{
-    jumps=(path)=>{
+
+    jump=(path)=>{
+
         this.props.history.push(path)
     }
     render(){
         return(
             <div>
+                <button onClick={this.jump.bind(this,'/admin/user')}>用户管理</button>
+                <button onClick={this.jump.bind(this,'/login')}>按钮1</button>
                 {this.props.children}
+
                 
-                <button onClick={this.jumps.bind(this,'/login')}>按钮1</button>
+                
                
+
+
             </div>
         )
     }
