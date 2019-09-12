@@ -1,12 +1,16 @@
 import React,{Component} from 'react'
+import {withRouter} from 'react-router-dom'
 class Admin extends Component{
+    jump=(path)=>{
+        this.props.history.push(path)
+    }
     render(){
         return(
             <div>
+                <button onClick={this.jump.bind(this,'/admin/user')}>用户管理</button>
                 {this.props.children}
-                <h1>这里是Admin</h1>
             </div>
         )
     }
 }
-export default Admin
+export default withRouter(Admin)
