@@ -21,7 +21,7 @@ class RootRouter extends Component{
                                     <Route path = '/admin/food' component={Food}></Route>
                                 </Admin>
                             )
-                        }}>
+                            }}>
                         </Route>
                         <Route path='/login' component={Login}></Route>
                     </Switch>
