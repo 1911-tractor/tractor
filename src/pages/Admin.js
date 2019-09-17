@@ -12,12 +12,6 @@ class Admin extends Component{
                 <button onClick={this.jump.bind(this,'/login')}>按钮1</button>
                 <button onClick={this.jump.bind(this,'/admin/food')}>food页面</button>
                 {this.props.children}
-
-                
-                
-               
-
-
             </div>
         )
     }

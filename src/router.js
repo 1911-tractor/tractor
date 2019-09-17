@@ -17,7 +17,7 @@ class RootRouter extends Component{
                         <Route path='/admin' render={()=>{
                             return(
                                 <Admin>
-                                    <Route path='/admin/user' component={User}></Route>
+                                    <Route path = '/admin/user' component={User}></Route>
                                     <Route path = '/admin/food' component={Food}></Route>
                                 </Admin>
                             )
