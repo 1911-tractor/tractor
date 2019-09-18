@@ -4,7 +4,7 @@ class Food extends Component{
   render(){
     return(
        <div>
-         这里是food页面
+         这里是图书管理页面
        </div>
     )
   }
