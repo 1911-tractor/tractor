@@ -83,7 +83,7 @@ module.exports = function(proxy, allowedHost) {
     public: allowedHost,
     proxy:{
       '/tractor':{
-        target:'http://localhost:3000',
+        target:'http://10.9.22.206:8080',
         changeOrigin:true,
         pathRewrite:{
           '^/tractor':''
