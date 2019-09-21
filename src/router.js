@@ -2,7 +2,8 @@ import React,{Component} from 'react';
 import {HashRouter,Route,Switch,Redirect} from 'react-router-dom';
 import App from './App';
 import Admin from 'pages/admin'
-import Book from 'pages/books'
+import BookUpdate from 'pages/admin/books/update'
+import BookAdd from 'pages/admin/books/add'
 import User from 'pages/user'
 import Login from 'pages/login'
 
@@ -17,7 +18,8 @@ class RootRouter extends Component{
                             return(
                                 <Admin>
                                     <Route path = '/admin/user' component={User}></Route>
-                                    <Route path = '/admin/books' component={Book}></Route>
+                                    <Route path = '/admin/books/update' component={BookUpdate}></Route>
+                                    <Route path = '/admin/books/add' component={BookAdd}></Route>
                                 </Admin>
                             )
                         }}>

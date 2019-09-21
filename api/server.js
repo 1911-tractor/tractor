@@ -7,7 +7,7 @@ const bodyParser= require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-const AdminBook = require('./router/admin/booksRouter')
+const AdminBook = require('./router/admin/book/booksRouter')
 app.use('/admin/books',AdminBook)
 
 app.listen(8080,()=>{

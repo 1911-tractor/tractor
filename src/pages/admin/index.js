@@ -13,7 +13,6 @@ class Admin extends Component{
                         <LeftNav ></LeftNav>
                     </Sider>
                     <Layout className='admin-right'>
-                        
                         <Content className='admin-right-middle'>
                             {this.props.children}
                         </Content>
