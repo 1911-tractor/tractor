@@ -12,7 +12,7 @@ class RootRouter extends Component{
             <App>
                 <HashRouter>
                     <Switch>
-                        <Redirect exact from='/' to='admin'></Redirect>
+                        <Redirect exact from='/' to='login'></Redirect>
                         <Route path='/admin' render={()=>{
                             return(
                                 <Admin>
