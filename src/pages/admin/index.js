@@ -6,6 +6,7 @@ import LeftNav from 'components/leftNav'
 const { Header, Footer, Sider, Content } = Layout;
 class Admin extends Component{
     render(){
+        console.log(this)
         return(
             <div className='admin'>
                 <Layout>
