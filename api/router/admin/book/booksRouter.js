@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const booksModel = require('../../db/model/bookModel')
+const booksModel = require('../../../db/model/bookModel')
 
 router.get('/test',(req,res)=>{
     res.send('ok')

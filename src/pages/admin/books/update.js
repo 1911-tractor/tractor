@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
-import { Layout,PageHeader,Table,Divider,Spin,Popconfirm} from 'antd';
-import './index.less'
+import { Layout,PageHeader,Table,Divider,Spin,Popconfirm, message} from 'antd';
+import './update.less'
+
 const {Content } = Layout;
 class Food extends Component{
   constructor(){
@@ -10,7 +11,7 @@ class Food extends Component{
       current:0,
       total:0,
       pageSize:3,
-      loading:true
+      loading:false
     }
   }
   columns = [
@@ -65,10 +66,13 @@ class Food extends Component{
       render: (text, record) => (
         <span>
             <a>更新</a>
+          
+          
           <Divider type="vertical" />
+          
           <Popconfirm
             title="你确定要删除这条信息吗?"
-            onConfirm={this.confirm.bind(this,record._id)}
+            onConfirm={this.confirmDel.bind(this,record._id)}
             // onCancel={cancel}
             okText="Yes"
             cancelText="No"
@@ -81,11 +85,21 @@ class Food extends Component{
       ),
     },
   ];
-  confirm=(id)=>{
+  confirmDel=(id)=>{
+    let {page,pageSize}=this.state
+    this.$axios.post('/tractor/admin/books/del',{_id:id})
+    .then((data)=>{
+      if(data.data.err==0){
+        message.success('删除成功')
+        this.initData(page,pageSize)
+      }else{
+        message.error('删除失败请重试')
+      }
+    })
     console.log(id)
   }
   initData=(page,pageSize)=>{
-    this.$axios.post('/tractor/admin/books/show',{page:`${page}`,pageSize:`${pageSize}`})
+    this.$axios.post('/tractor/admin/books/show',{page:page,pageSize:pageSize})
     .then((data)=>{
       if(data.data.err == 0){
         this.setState({dataSource:data.data.list,total:data.data.total,loading:false})
