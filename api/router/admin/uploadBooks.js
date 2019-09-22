@@ -6,6 +6,7 @@ const path = require('path')
 
 //图片的上传
 router.post('/upload',multer().single('img'),(req,res)=>{
+    //console.log(req)
     let {buffer,mimetype} = req.file
     let filename = (new Date()).getTime()+parseInt(Math.random()*99999)//写一个时间戳+随机数，目的是不让文件名重复
     let extname = mimetype.split('/')[1]
@@ -14,7 +15,7 @@ router.post('/upload',multer().single('img'),(req,res)=>{
     let dir = path.join(__dirname,'../../www/images')
     let resPath = `/public/images/${filename}.${extname}`
     fs.writeFile(`${dir}/${filename}.${extname}`,buffer,(err)=>{
-        console.log(err)
+        console.log('错误信息',err)
         if(err){
             res.send({err:-1,msg:'上传图片失败'})
         }else{

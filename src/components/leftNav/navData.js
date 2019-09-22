@@ -25,7 +25,8 @@ let obj={
         {
         name:'广告位管理',
         key:'2',
-        path:'/admin/banner'
+        path:'/admin/banner',
+ 
         },
         {
         name:'用户管理',

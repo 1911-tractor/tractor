@@ -24,7 +24,7 @@ class LeftNav extends Component{
         return data.map((item)=>{
             if(item.children){
                 return(
-                    <SubMenu title={item.name}>
+                    <SubMenu title={item.name} key={item.key}>
                         {this.renderItem(item.children)}
                     </SubMenu>
                 )

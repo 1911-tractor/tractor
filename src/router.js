@@ -5,6 +5,8 @@ import Admin from 'pages/admin'
 import Book from 'pages/books'
 import User from 'pages/user'
 import Login from 'pages/login'
+import Banner from 'pages/banner'
+
 
 class RootRouter extends Component{
     render(){
@@ -18,11 +20,14 @@ class RootRouter extends Component{
                                 <Admin>
                                     <Route path = '/admin/user' component={User}></Route>
                                     <Route path = '/admin/books' component={Book}></Route>
+                                    <Route path='/admin/banner' component={Banner}></Route>
+                                  
                                 </Admin>
                             )
                         }}>
                         </Route>
                         <Route path='/login' component={Login}></Route>
+                        
                     </Switch>
                 </HashRouter>
             </App>
