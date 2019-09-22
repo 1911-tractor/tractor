@@ -4,9 +4,8 @@ import { Form, Icon, Input, Button, Card,  message} from 'antd';
 import './index.less'
 class Login extends Component{
     login=()=>{
-        //let result=this.props.form.getFieldsValue()
+        
         this.props.form.validateFields((err,data)=>{
-          console.log(err,data)
           if(err){
             //前端验证错误
             message.error('输入信息有误请重试!',1)
