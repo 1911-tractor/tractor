@@ -23,15 +23,16 @@ class Add extends Component{
     handleSubmit=(e)=>{
         e.preventDefault();
         this.props.form.validateFields((err,data)=>{
-            console.log(err)
+            
             let {name,desc,kind,sales,inve,oldprice,nowprice} = data
             let {imageUrl} = this.state
+            console.log(imageUrl)
             if(err){
                 // 前端验证有错误
                 message.error('输入信息有误请重试!',1)
               }else{
                 // 前端验证ok 调用ajax 接口
-                this.$axios.post('/tractor/admin/books/add',{name:name,desc:desc,sales:sales,inve:inve,img:imageUrl.file.name,kind:kind,oldprice:oldprice,nowprice:nowprice})
+                this.$axios.post('/tractor/admin/books/add',{name:name,desc:desc,sales:sales,inve:inve,img:imageUrl,kind:kind,oldprice:oldprice,nowprice:nowprice})
                 .then((data)=>{
                     if(data.data.err === 0){
                        message.success('新增图书信息成功',1,()=>{
@@ -74,7 +75,7 @@ class Add extends Component{
         const { getFieldDecorator } = this.props.form;
         const { TextArea } = Input;
         const { Option } = Select;
-        const { imageUrl } = this.state;
+        
         const tailFormItemLayout = {
             wrapperCol: {
               xs: {
@@ -93,6 +94,7 @@ class Add extends Component{
             <div className="ant-upload-text">Upload</div>
           </div>
         );
+        const { imageUrl } = this.state;
         let {loading} = this.state
         return(
             <Layout  className='books'>

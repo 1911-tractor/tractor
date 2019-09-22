@@ -1,8 +1,145 @@
 import React,{Component} from 'react'
-import { Layout,PageHeader,Table,Divider,Spin,Popconfirm, message} from 'antd';
+import { Layout,PageHeader,Table,Divider,Spin,Popconfirm,Button, Modal, Form, Input, Radio,InputNumber,Upload, message,Icon,Select} from 'antd';
 import './update.less'
 
 const {Content } = Layout;
+
+const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
+  // eslint-disable-next-line
+  class extends React.Component {
+    constructor(){
+      super()
+      this.state={
+        imageUrl:''
+      }
+    }
+    render() {
+      const { visible, onCancel, onCreate, form } = this.props;
+      const { getFieldDecorator } = form;
+      const { TextArea } = Input;
+      const { Option } = Select;
+      const { imageUrl } = this.state;
+      const uploadButton = (
+        <div>
+          <Icon type={this.state.picloading ? 'loading' : 'plus'} />
+          <div className="ant-upload-text">Upload</div>
+        </div>
+      );
+      return (
+        <Modal
+          visible={visible}
+          title="Create a new collection"
+          okText="Create"
+          onCancel={onCancel}
+          onOk={onCreate}
+        >
+          <Form layout="vertical">
+            <Form.Item label="书名">
+            {getFieldDecorator('name', {
+                                    rules: [
+                                    {
+                                        required: true,
+                                        message: '请输入书名',
+                                    },
+                                    ],
+            })(<Input />)}
+            </Form.Item>
+            <Form.Item label="销量">
+            {getFieldDecorator('sales', {
+                rules: [
+                {
+                    required: true,
+                    message: '请输入销量',
+                },
+                ],
+            })(<InputNumber min={1} max={10000} defaultValue={3} />)}
+            </Form.Item>
+            <Form.Item label="库存">
+            {getFieldDecorator('inve', {
+                rules: [
+                {
+                    required: true,
+                    message: '请输入库存数量',
+                },
+                ],
+            })(<InputNumber min={1} defaultValue={3} />)}
+            </Form.Item>
+            <Form.Item label="描述">
+            {getFieldDecorator('desc', {
+                rules: [
+                {
+                    required: true,
+                    message: '请输入描述',
+                },
+                ],
+            })(<TextArea rows={3} />)}
+            </Form.Item>
+            <Form.Item label="封面">
+            {getFieldDecorator('img', {
+                rules: [
+                {
+                    required: true,
+                    message: '请插入封面',
+                },
+                ],
+            })(<Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              onChange={this.handleChange}
+            >
+              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>)}
+            </Form.Item>
+            <Form.Item label="分类">
+            {getFieldDecorator('kind', {
+                rules: [
+                {
+                    required: true,
+                    message: '请选择分类',
+                },
+                ],
+            })(<Select
+                showSearch
+                style={{ width: 200 }}
+                placeholder="选择一个种类"
+                optionFilterProp="children"
+                
+              >
+                <Option value="外国名著">外国名著</Option>
+                <Option value="中国名著">中国名著</Option>
+                <Option value="科幻小说">科幻小说</Option>
+                <Option value="推理小说">推理小说</Option>
+              </Select>)}
+            </Form.Item>
+            <Form.Item label="原价">
+            {getFieldDecorator('oldprice', {
+                rules: [
+                {
+                    required: false,
+                    message: '请输入书名',
+                },
+                ],
+            })(<InputNumber/>)}
+            </Form.Item>
+            <Form.Item label="现价">
+            {getFieldDecorator('nowprice', {
+                rules: [
+                {
+                    required: true,
+                    message: '请输入现价',
+                },
+                ],
+            })(<InputNumber/>)}
+            </Form.Item>
+          </Form>
+        </Modal>
+      );
+    }
+  },
+);
+
 class Food extends Component{
   constructor(){
     super()
@@ -10,8 +147,10 @@ class Food extends Component{
       dataSource:[],
       current:0,
       total:0,
-      pageSize:3,
-      loading:false
+      pageSize:4,
+      loading:true,
+      visible: false,
+      confirmLoading: false,
     }
   }
   columns = [
@@ -19,21 +158,25 @@ class Food extends Component{
       title: '书名',
       dataIndex: 'name',
       key: 'name',
+      width:'150px',
     },
     {
       title: '销量',
       dataIndex: 'sales',
       key: 'sales',
+      width:'70px'
     },
     {
       title: '库存',
       dataIndex: 'inve',
       key: 'inve',
+      width:'70px'
     },
     {
       title: '简介',
       dataIndex: 'desc',
       key: 'desc',
+      width:'300px'
     },
     {
       title: '封面',
@@ -41,9 +184,10 @@ class Food extends Component{
       key: 'img',
       render(data){
         return(
-          <img height='80' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1568807560295&di=78031f4026abbe737cff622d2ea84d23&imgtype=0&src=http%3A%2F%2Fbook.img.ireader.com%2Fgroup6%2FM00%2FC9%2F29%2FCmQUNliwAvqEd43OAAAAAEKQN1s737631726.jpg%3Fv%3DO54Z6g-L'/>
+          <img height='80' src={data}/>
         )
-      }
+      },
+      width:'150px'
     },
     {
       title: '类别',
@@ -64,10 +208,17 @@ class Food extends Component{
       title: '操作',
       key: 'action',
       render: (text, record) => (
+        
         <span>
-            <a>更新</a>
-          
-          
+            <a onClick={this.showModal} >更新</a>
+            <CollectionCreateForm 
+              //父子组件之间传递表单数据
+                wrappedComponentRef={this.saveFormRef}
+                visible={this.state.visible}
+                onCancel={this.handleCancel}
+                onCreate={this.handleCreate}
+            />
+
           <Divider type="vertical" />
           
           <Popconfirm
@@ -85,6 +236,8 @@ class Food extends Component{
       ),
     },
   ];
+
+  //删除图书信息
   confirmDel=(id)=>{
     let {page,pageSize}=this.state
     this.$axios.post('/tractor/admin/books/del',{_id:id})
@@ -98,6 +251,49 @@ class Food extends Component{
     })
     console.log(id)
   }
+
+  //修改图书信息
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+  handleOk = () => {
+    this.setState({
+      ModalText: 'The modal will be closed after two seconds',
+      confirmLoading: true,
+    });
+    setTimeout(() => {
+        this.setState({
+          visible: false,
+          confirmLoading: false,
+        });
+      }, 2000);
+    };
+  handleCancel = () => {
+    console.log('Clicked cancel button');
+    this.setState({
+      visible: false,
+    });
+  };
+
+  //获得表单数据，并且打印出来
+  handleCreate = () => {
+    const form = this.formRef.props.form;
+    console.log(form)
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }else{
+        console.log('Received values of form: ', values);
+        form.resetFields();
+        this.setState({ visible: false });
+      }
+    });
+  };
+
+
+
   initData=(page,pageSize)=>{
     this.$axios.post('/tractor/admin/books/show',{page:page,pageSize:pageSize})
     .then((data)=>{
@@ -118,6 +314,7 @@ class Food extends Component{
   }
   render(){
     let {total,pageSize,loading} = this.state
+    const { visible, confirmLoading } = this.state;
     return(
         <Layout className='books'>
           <PageHeader onBack={() => null} title="Title" subTitle="This is a subtitle" />
@@ -139,6 +336,9 @@ class Food extends Component{
             />
             </Spin>
           </Content>
+
+          {/* 修改信息模态框 */}
+          
         </Layout>
     )
   }
